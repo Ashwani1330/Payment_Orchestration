@@ -6,6 +6,7 @@ const AuthToken = require("../models/authTokens")
 
 exports.register = async (req, res) => {
   const {email, password, username} = req.body;
+  console.log(req.body);
 
   try {
     let user = await User.findbyEmail(email);
@@ -24,10 +25,11 @@ exports.register = async (req, res) => {
     });
 
     // Respond with success message
-    res.status(201).json({msg: "User registered", userId, token});
+    res.status(201).json({msg: "User registered", userId});
 
   } catch (err) {
-    res.status(500).json({msg: "Server error", error: err.message});
+    console.log(err);
+    res.status(500).json({msg: "Server error", error: err});
   }
 };
 

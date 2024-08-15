@@ -24,8 +24,19 @@ exports.register = async (req, res) => {
       username,
     });
 
+    const payload = {
+      user: {
+        id: userId,
+      },
+    };
+
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
+
+    await AuthToken.create(uuidv4(), userId, token, new Date(Date.now() + 3600000));  // 1 hr expiration
+
+
     // Respond with success message
-    res.status(201).json({msg: "User registered", userId});
+    res.status(201).json({msg: "User registered", userId, token});
 
   } catch (err) {
     console.log(err);
@@ -59,7 +70,7 @@ exports.login = async (req, res) => {
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h"});
 
-    await AuthToken.create(user.id, token, new Date(Date.now() + 3600000));  // 1 hr expiration
+    await AuthToken.create(uuidv4(), user.id, token, new Date(Date.now() + 3600000));  // 1 hr expiration
 
     res.json({token});
   } catch (err) {

@@ -7,19 +7,6 @@ const query = promisify(sql.query).bind(sql);
 const User = {};
 
 
-// User.findbyEmail = async (email) => {
-//     console.log('hello')
-//     const result = await sql.query(`SELECT * FROM USERS WHERE email = '${email}'`);
-//     console.log('hi');
-//     if (result === null) {
-//         return 0;
-//     } else {
-//         return result.recordset[0];
-//     }
-// };
-
-
-
 User.findbyEmail = async (email) => {
     console.log('hello');
     try {
@@ -33,18 +20,10 @@ User.findbyEmail = async (email) => {
     }
 };
 
-// INSERT INTO USERS (id, username, password, email)
 
 User.create = async (userDetails) => {
 
     const { email, password, username } = userDetails;
-
-    /*
-    const result = await sql.query`
-    INSERT INTO USERS (id, password, email, created_at)
-    VALUES (NEWID(), ${username}, ${password}, ${email}, GETDATE())
-    SELECT SCOPE_IDENTITY() as id;
-    `; */
 
     // Fetch the maximum current ID from the users table
     try {
@@ -57,7 +36,6 @@ User.create = async (userDetails) => {
 
         const result = await query(
             `INSERT INTO users (id, email, password, username) VALUES ('${newId}', '${email}', '${password}', '${username}')`
-            // [newId, email, password, username]
         );
 
         return newId;

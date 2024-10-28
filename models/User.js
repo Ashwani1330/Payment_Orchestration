@@ -10,8 +10,8 @@ const User = {};
 User.findbyEmail = async (email) => {
     console.log('hello');
     try {
-        console.log(`SELECT * FROM USERS WHERE email = '${email}'`);
-        const rows = await query(`SELECT * FROM USERS WHERE email = '${email}'`);
+        console.log(`SELECT * FROM users WHERE email = '${email}'`);
+        const rows = await query(`SELECT * FROM users WHERE email = '${email}'`);
         console.log('hi');
         return rows.length > 0 ? rows[0] : null;
     } catch (err) {
